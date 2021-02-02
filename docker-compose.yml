@@ -1,0 +1,56 @@
+---
+version: '3.6'
+services:
+  sqlwp:
+    container_name: sqlwp
+    image: mariadb:${MARIADBVERSION}
+    restart: unless-stopped
+    volumes:
+      - datasqlwp:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_USER: ${MYSQLUSER}
+      MYSQL_PASSWORD: ${MYSQLPASSWORD}
+      MYSQL_DATABASE: ${MYSQLDB}
+ 
+  nginxwp:
+    container_name: nginxforwp
+    image: nginx:${NGINXVERSION}
+    restart: unless-stopped
+    ports:
+      - 49154:80    
+    volumes:
+      - datawp:/var/www/html
+      - datanginxlogs:/var/log/nginx/
+      - ./conf/nginx-wp:/etc/nginx/
+    links:
+      - wp
+
+  wp:
+    container_name: wpapp
+    image: wordpress:${WPVERSION}
+    restart: unless-stopped
+    volumes:
+      - ./conf/php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - datawp:/var/www/html
+    depends_on:
+      - sqlwp
+    environment:
+      WORDPRESS_DB_HOST: sqlwp
+      WORDPRESS_DB_USER: ${MYSQLUSER}
+      WORDPRESS_DB_PASSWORD: ${MYSQLPASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQLDB}
+      WORDPRESS_TABLE_PREFIX: ${MYSQLTABLEPREFIX}
+
+  redis:
+    container_name: redis
+    image: redis:${REDISVERSION}
+    restart: unless-stopped
+    volumes:
+      - dataredis:/data
+
+volumes:
+  datasqlwp:
+  datanginxlogs:
+  datawp:
+  dataredis:
