@@ -6,6 +6,7 @@ services:
     image: mariadb:${MARIADBVERSION}
     restart: unless-stopped
     volumes:
+      - ./conf/custom-mysql.cnf:/etc/mysql/conf.d/custom-mysql.cnf
       - datasqlwp:/var/lib/mysql
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
@@ -37,6 +38,7 @@ services:
       - ./conf/plugins:/var/www/html/wp-content/plugins     
     depends_on:
       - sqlwp
+      - redis  
     environment:
       WORDPRESS_DB_HOST: sqlwp
       WORDPRESS_DB_USER: ${MYSQLUSER}
@@ -48,6 +50,7 @@ services:
     container_name: redis
     image: redis:${REDISVERSION}
     restart: unless-stopped
+    command: redis-server --maxmemory 1024mb --maxmemory-policy allkeys-lru --requirepass changemeWithALongPassword --appendonly yes --bind redis
     volumes:
       - dataredis:/data
 

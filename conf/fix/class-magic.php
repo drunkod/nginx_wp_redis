@@ -47,3 +47,20 @@
 
 
 curl 'https://HOST_NAME/my-account/edit-account/'   -H 'authority: HOST_NAME'   -H 'cache-control: max-age=0'   -H 'sec-ch-ua: "Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"'   -H 'sec-ch-ua-mobile: ?0'   -H 'upgrade-insecure-requests: 1'   -H 'origin: https://HOST_NAME'   -H 'content-type: application/x-www-form-urlencoded'   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'   -H 'sec-fetch-site: same-origin'   -H 'sec-fetch-mode: navigate'   -H 'sec-fetch-user: ?1'   -H 'sec-fetch-dest: document'   -H 'referer: https://HOST_NAME/my-account/edit-account/'   -H 'accept-language: ru,en;q=0.9'   --data-raw 'wpmll_email=kultach%40yandex.ru&wpmll_action=send_magic&wpmll_submit=Send+me+the+link' curl 'https://HOST_NAME/my-account/edit-account/'   -H 'authority: HOST_NAME'   -H 'cache-control: max-age=0'   -H 'sec-ch-ua: "Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"'   -H 'sec-ch-ua-mobile: ?0'   -H 'upgrade-insecure-requests: 1'   -H 'origin: https://HOST_NAME'   -H 'content-type: application/x-www-form-urlencoded'   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'   -H 'sec-fetch-site: same-origin'   -H 'sec-fetch-mode: navigate'   -H 'sec-fetch-user: ?1'   -H 'sec-fetch-dest: document'   -H 'referer: https://HOST_NAME/my-account/edit-account/'   -H 'accept-language: ru,en;q=0.9'   --data-raw 'wpmll_email=NAME_MAIL%40yandex.ru&wpmll_action=send_magic&wpmll_submit=Send+me+the+link'
+
+
+Modifiez le fichier « wp-config.php » qui se trouve dans le volume de données WordPress « /var/lib/docker/volumes/docker_datawp/_data/ 
+https://wordpress.org/plugins/redis-cache/
+
+define('WP_CACHE', true);
+define('WP_REDIS_HOST', 'redis');
+define('WP_REDIS_PORT', '6379');
+define('WP_CACHE_KEY_SALT', 'B33?,;j3D$srtX-nJC[poPD@6!SjSRDL?S~lg{8>(pagVe|-QoX..1Ky3PkG.1|C');
+define( 'WP_REDIS_PASSWORD', 'changemeWithALongPassword' );
+define( 'WP_REDIS_TIMEOUT', 1 );
+define( 'WP_REDIS_READ_TIMEOUT', 1 );
+define( 'WP_REDIS_DATABASE', 0 );
+define('WP_REDIS_DISABLE_BANNERS', 'true');
+
+// suppression automatique des clés en cache après 7 jours
+define( 'WP_REDIS_MAXTTL', 60 * 60 * 24 * 7 );
