@@ -33,6 +33,8 @@ services:
     volumes:
       - ./conf/php.ini:/usr/local/etc/php/conf.d/custom.ini
       - datawp:/var/www/html
+      - ./conf/theme:/var/www/html/wp-content/themes
+      - ./conf/plugins:/var/www/html/wp-content/plugins     
     depends_on:
       - sqlwp
     environment:
