@@ -64,3 +64,11 @@ define('WP_REDIS_DISABLE_BANNERS', 'true');
 
 // suppression automatique des clés en cache après 7 jours
 define( 'WP_REDIS_MAXTTL', 60 * 60 * 24 * 7 );
+
+// add ss woocomm myaccount plugin
+
+￼Disable ajax tabs feature of this plugin.
+Disable plugins CSS styles on tabs
+Disable more link with dropdown on tabs
+Add custom tabs
+Disable auto flushing of rewrite rules.
